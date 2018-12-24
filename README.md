@@ -41,3 +41,7 @@ user:
 6. Generate JWT token
 
 `php artisan jwt:secret`
+
+7. run server
+
+`php artisan serve`
