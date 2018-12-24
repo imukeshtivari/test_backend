@@ -3,19 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
-{
-    protected $fillable = ['title', 'category_id', 'description', 'image', 'price'];
+class Product extends Model {
 
-    public function category(){
-    	return $this->belognsTo(Category::class);
+  use SoftDeletes;
+
+  protected $fillable = ['title', 'category_id', 'description', 'image', 'price'];
+
+  public function category() {
+    return $this->belognsTo(Category::class);
+  }
+
+  public function getCategoryAttribute($value) {
+    if ($this->category_id) {
+      return Category::find($this->category_id)->name;
     }
+    return "";
+  }
 
-    public function getCategoryAttribute($value){
-    	if($this->category_id){
-    		return Category::find($this->category_id)->name;
-    	}
-    	return "";
-    }
 }
