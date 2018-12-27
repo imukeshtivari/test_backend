@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddRoleInUsersTable extends Migration {
+class CreateOrdersTable extends Migration {
 
   /**
    * Run the migrations.
@@ -12,8 +12,11 @@ class AddRoleInUsersTable extends Migration {
    * @return void
    */
   public function up() {
-    Schema::table('users', function (Blueprint $table) {
-      $table->string('role', 100)->after('remember_token');
+    Schema::create('orders', function (Blueprint $table) {
+      $table->increments('id');
+      $table->unsignedInteger('user_id');
+      $table->decimal('total', 10, 2)->default(0.00);
+      $table->timestamps();
       $table->softDeletes();
     });
   }
@@ -24,10 +27,7 @@ class AddRoleInUsersTable extends Migration {
    * @return void
    */
   public function down() {
-    Schema::table('users', function (Blueprint $table) {
-      $table->dropColumn('role');
-      $table->dropColumn('deleted_at');
-    });
+    Schema::dropIfExists('orders');
   }
 
 }
